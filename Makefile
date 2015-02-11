@@ -1,7 +1,7 @@
 ROOTLIBS      = $(shell $(ROOTSYS)/bin/root-config --libs)
 ROOTGLIBS     = $(shell $(ROOTSYS)/bin/root-config --glibs)
 
-BINFILES =  runCreateHistos.cpp
+BINFILES =  $(wildcard *.cpp)
 
 PROGRAMS = $(patsubst %.cpp,%,$(BINFILES))
 
