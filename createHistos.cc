@@ -37,7 +37,7 @@ void createHistos::Loop(){
 
   if (fChain == 0) return;
 
-  Long64_t nentries = fChain->GetEntriesFast();
+  Long64_t nentries = fChain->GetEntries();
   std::cout<<"nentries:"<<nentries<<std::endl;
   Long64_t nbytes = 0, nb = 0;
   for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -82,11 +82,11 @@ void createHistos::Loop(){
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueFirstEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	}
 	else if(TMath::Abs(eleeta[i])>secondEtaBinDown && TMath::Abs(eleeta[i])<secondEtaBinUp){
-	  eleErecoOverETrueSecondEtaBin->Fill(eleenergy[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
+	  histos_["eleErecoOverETrueSecondEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueSecondEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	}
 	else if(TMath::Abs(eleeta[i])>thirdEtaBinDown){
-	  eleErecoOverETrueThirdEtaBin->Fill(eleenergy[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
+	  histos_["eleErecoOverETrueThirdEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueThirdEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	}
       }
@@ -99,18 +99,18 @@ void createHistos::Loop(){
   
 }
 
-void createHistos::setInputFile(TString inputFileString){
-  inputFile_=TFile::Open(inputFileString);
-  Init((TTree*)inputFile_->Get("tree"));
-
-}
+//void createHistos::setInputFile(TString inputFileString){
+//  inputFile_=TFile::Open(inputFileString);
+//  Init((TTree*)inputFile_->Get("tree"));
+//
+//}
 
 void createHistos::setOutputFile(TString outputFileString){
   outputFile_=TFile::Open(outputFileString,"recreate");
 }
 
-createHistos::createHistos(TString filename){
-  setInputFile(filename);
+createHistos::createHistos(TChain* chain){
+  Init(chain);
 }
 
 createHistos::~createHistos()

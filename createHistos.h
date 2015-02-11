@@ -25,6 +25,7 @@
 #include "TLorentzVector.h"
 #include "TObject.h"
 #include "TString.h"
+#include "TChain.h"
 
 // Header file for the classes stored in the TTree if any.
 #define MAXPARTICLESTOSAVE 100
@@ -42,7 +43,7 @@ public :
    Int_t           fCurrent; //!current Tree number in a TChain
 
    std::map<TString,TH1F*> histos_;
-   TFile* inputFile_;
+   //   TFile* inputFile_;
    TFile* outputFile_;
 
    // Declaration of leaf types
@@ -413,7 +414,7 @@ public :
    TBranch        *b_truePU;   //!
    TBranch        *b_bxPU;   //!
 
-   createHistos(TString filename);
+   createHistos(TChain* chain);
    virtual ~createHistos();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -425,7 +426,7 @@ public :
    void bookHisto(TString name, int nbins, float xLow, float xUp);
    void bookHistos();
    void writeHistos();
-   void setInputFile(TString name);
+   //   void setInputFile(TString name);
    void setOutputFile(TString nameFile);
 
 };
