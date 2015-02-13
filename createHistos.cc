@@ -17,11 +17,18 @@ void createHistos::bookHistos(){
   bookHisto("eleErecoOverETrueFirstEtaBinFbrem02",200,0,2);
   bookHisto("eleErecoOverETrueSecondEtaBinFbrem02",200,0,2);
   bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2);
+  bookHisto("nBCForSC",100,-0.5,99.5);
+  bookHisto("nXtalsSeed",100,-0.5,99.5);
+  bookHisto("maxDistFromSeedinEtainSC",100,0,3);
+  bookHisto("maxDistFromSeedinPhiinSC",100,0,3);
 
   bookHisto2D("sieieVsPhi",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiFirstEtaBin",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiSecondEtaBin",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiThirdEtaBin",100,-3.,3.,100,0.,0.1);
+
+
+
 }
 
 
@@ -72,6 +79,8 @@ void createHistos::Loop(){
 
     //loop on electrons
     for(int i=0;i<elen;i++){
+      if(elept[i]<0.1)continue;
+
       //matching with gen ele
       TLorentzVector elep4;
       elep4.SetPtEtaPhiM(elept[i],eleeta[i],elephi[i],0.);
@@ -95,11 +104,13 @@ void createHistos::Loop(){
       //filling histos for electrons
       if(geleindexMatch!=-1 && TMath::Abs(eleeta[i])>endcapBoundaryLow){
 	histos2D_["sieieVsPhi"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
+
+
 	//	std::cout<<elephi[i]<<" "<<elesiEtaiEtaZS[i]<<std::endl;
 	if(TMath::Abs(eleeta[i])<firstEtaBinUp && TMath::Abs(eleeta[i])>endcapBoundaryLow){
 	  histos_["eleErecoOverETrueFirstEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueFirstEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
-	  histos2D_["sieieVsPhiThirdEtaBin"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
+	  histos2D_["sieieVsPhiFirstEtaBin"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
 	}
 	else if(TMath::Abs(eleeta[i])>secondEtaBinDown && TMath::Abs(eleeta[i])<secondEtaBinUp){
 	  histos_["eleErecoOverETrueSecondEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
@@ -117,6 +128,8 @@ void createHistos::Loop(){
 
     //loop on photons
     for(int i=0;i<phon;i++){
+      if(phopt[i]<0.1)continue;
+
       //matching with gen pho
       TLorentzVector phop4;
       phop4.SetPtEtaPhiM(phopt[i],phoeta[i],phophi[i],0.);
@@ -151,9 +164,38 @@ void createHistos::Loop(){
       }
     }//phon
 
+
+
+    //loop on pfSC
+    if(pfSCn>0){
+      for (int i=0;i<pfSCn;i++){
+	histos_["nXtalsSeed"]->Fill(pfSCnXtals[i]);
+	histos_["nBCForSC"]->Fill(pfSCnBC[i]);
+      
+	
+	//max distance from seed
+	if(pfSCbcE[i][0]<0.01)continue;
+	//	std::cout<<pfSCbcE[i][0]<<std::endl;
+	float maxDist=0;
+	TLorentzVector seed;
+	seed.SetPtEtaPhiE(pfSCbcE[i][0]/cosh(pfSCbcEta[i][0]),pfSCbcEta[i][0],pfSCbcPhi[i][0],pfSCbcE[i][0]);
+	for (int j=0;j< pfSCnBC[i];j++){
+	  //	  std::cout<<pfSCnBC[i]<< " i,j:"<<i<<","<<j<<" "<<pfSCbcE[i][j]<<std::endl;
+	  if(pfSCbcE[i][j]<0.01)continue;
+	  if(j>0){
+	    TLorentzVector bc;
+	    bc.SetPtEtaPhiE(pfSCbcE[i][j]/cosh(pfSCbcEta[i][j]),pfSCbcEta[i][j],pfSCbcPhi[i][j],pfSCbcE[i][j]);
+	    float dist=seed.DeltaR(bc);
+	    if(dist>maxDist)maxDist=dist;
+	    //	    std::cout<<maxDist<<std::endl;
+	  }
+	}//pfSCnBC
+	//	if(maxDist>0)histos	
+      }//pfSCn
+    }
 	
 
-  }
+  }//jentry
 
   
 }
