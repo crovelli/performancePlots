@@ -43,6 +43,7 @@ public :
    Int_t           fCurrent; //!current Tree number in a TChain
 
    std::map<TString,TH1F*> histos_;
+   std::map<TString,TH2F*> histos2D_;
    //   TFile* inputFile_;
    TFile* outputFile_;
 
@@ -424,6 +425,7 @@ public :
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    void bookHisto(TString name, int nbins, float xLow, float xUp);
+   void bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp);
    void bookHistos();
    void writeHistos();
    //   void setInputFile(TString name);

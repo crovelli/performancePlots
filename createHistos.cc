@@ -17,6 +17,11 @@ void createHistos::bookHistos(){
   bookHisto("eleErecoOverETrueFirstEtaBinFbrem02",200,0,2);
   bookHisto("eleErecoOverETrueSecondEtaBinFbrem02",200,0,2);
   bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2);
+
+  bookHisto2D("sieieVsPhi",100,-3.,3.,100,0.,0.1);
+  bookHisto2D("sieieVsPhiFirstEtaBin",100,-3.,3.,100,0.,0.1);
+  bookHisto2D("sieieVsPhiSecondEtaBin",100,-3.,3.,100,0.,0.1);
+  bookHisto2D("sieieVsPhiThirdEtaBin",100,-3.,3.,100,0.,0.1);
 }
 
 
@@ -25,10 +30,21 @@ void createHistos::bookHisto(TString name, int nbins, float xLow, float xUp){
 
 }
 
+void createHistos::bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp){
+  histos2D_[name]=new TH2F(name, name, nbins,xLow,xUp,nbins, yLow,yUp);
+
+}
+
+
 void createHistos::writeHistos(){
   for(std::map<TString,TH1F*>::const_iterator out=histos_.begin();out!=histos_.end();++out){
     out->second->Write(out->first,TObject::kOverwrite);
   }
+
+  for(std::map<TString,TH2F*>::const_iterator out=histos2D_.begin();out!=histos2D_.end();++out){
+    out->second->Write(out->first,TObject::kOverwrite);
+  }
+
  
 }
 
@@ -46,15 +62,16 @@ void createHistos::Loop(){
     nb = fChain->GetEntry(jentry);   nbytes += nb;
     // if (Cut(ientry) < 0) continue;           
 
+    if(jentry%1000==0)std::cout<<"jentry:"<<jentry<<"/"<<nentries<<std::endl;
+
     float endcapBoundaryLow=1.5;
     float firstEtaBinUp=1.8;
     float secondEtaBinDown=1.8;
     float secondEtaBinUp=2.4;
     float thirdEtaBinDown=2.4;
 
+    //loop on electrons
     for(int i=0;i<elen;i++){
-
-
       //matching with gen ele
       TLorentzVector elep4;
       elep4.SetPtEtaPhiM(elept[i],eleeta[i],elephi[i],0.);
@@ -75,22 +92,64 @@ void createHistos::Loop(){
 	  drMatch=dr;
 	}
       }
-
-      if(geleindexMatch!=-1){
+      //filling histos for electrons
+      if(geleindexMatch!=-1 && TMath::Abs(eleeta[i])>endcapBoundaryLow){
+	histos2D_["sieieVsPhi"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
+	//	std::cout<<elephi[i]<<" "<<elesiEtaiEtaZS[i]<<std::endl;
 	if(TMath::Abs(eleeta[i])<firstEtaBinUp && TMath::Abs(eleeta[i])>endcapBoundaryLow){
 	  histos_["eleErecoOverETrueFirstEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueFirstEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
+	  histos2D_["sieieVsPhiThirdEtaBin"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
 	}
 	else if(TMath::Abs(eleeta[i])>secondEtaBinDown && TMath::Abs(eleeta[i])<secondEtaBinUp){
 	  histos_["eleErecoOverETrueSecondEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueSecondEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
+	  histos2D_["sieieVsPhiSecondEtaBin"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
 	}
 	else if(TMath::Abs(eleeta[i])>thirdEtaBinDown){
 	  histos_["eleErecoOverETrueThirdEtaBin"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
 	  if(gelefbrem80[geleindexMatch]<0.2)histos_["eleErecoOverETrueThirdEtaBinFbrem02"]->Fill(elee[i]/(gelept[geleindexMatch]*cosh(geleeta[geleindexMatch])));
+	  histos2D_["sieieVsPhiThirdEtaBin"]->Fill(elephi[i],elesiEtaiEtaZS[i]);
 	}
       }
-    }
+    }//elen
+
+
+    //loop on photons
+    for(int i=0;i<phon;i++){
+      //matching with gen pho
+      TLorentzVector phop4;
+      phop4.SetPtEtaPhiM(phopt[i],phoeta[i],phophi[i],0.);
+      //      std::cout<<"etapho:"<<phop4.Eta();                                                                                                                                                                                           
+
+      int gphoindexMatch=-1;
+      float drMatch=999;
+      for(int j=0;j<gphon;j++){
+	if(gphopt[j]<5)continue;
+
+	TLorentzVector gphop4;
+	gphop4.SetPtEtaPhiM(gphopt[j],gphoeta[j],gphophi[j],0.);
+
+	float dr=phop4.DeltaR(gphop4);
+
+	if(dr<0.1 && dr<drMatch){
+	  gphoindexMatch=j;
+	  drMatch=dr;
+	}
+      }
+      //filling histos for phoctrons
+      if(gphoindexMatch!=-1){
+	if(TMath::Abs(phoeta[i])<firstEtaBinUp && TMath::Abs(phoeta[i])>endcapBoundaryLow){
+	  histos_["phoErecoOverETrueFirstEtaBin"]->Fill(phoe[i]/(gphopt[gphoindexMatch]*cosh(gphoeta[gphoindexMatch])));
+	}
+	else if(TMath::Abs(phoeta[i])>secondEtaBinDown && TMath::Abs(phoeta[i])<secondEtaBinUp){
+	  histos_["phoErecoOverETrueSecondEtaBin"]->Fill(phoe[i]/(gphopt[gphoindexMatch]*cosh(gphoeta[gphoindexMatch])));
+	}
+	else if(TMath::Abs(phoeta[i])>thirdEtaBinDown){
+	  histos_["phoErecoOverETrueThirdEtaBin"]->Fill(phoe[i]/(gphopt[gphoindexMatch]*cosh(gphoeta[gphoindexMatch])));
+	}
+      }
+    }//phon
 
 	
 
