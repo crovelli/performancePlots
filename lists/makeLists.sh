@@ -1,0 +1,7 @@
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/QCDPt-15to3000/noPU | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/QCDPt-15to3000/noPU/"$1}' > QCDPt-15to3000_noPU.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/QCDPt-15to3000/PU140 | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/QCDPt-15to3000/PU140/"$1}' > QCDPt-15to3000.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/GJet/PU140 | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/GJet/PU140/"$1}' > GJet.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/ggH/noPU/ | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/ggH/PU140/"$1}' > ggHRelVal_noPU.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/ggH/PU140/ | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/ggH/PU140/"$1}' > ggHRelVal.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/DYToLLRelVal/noPU | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/DYToLLRelVal/PU140/"$1}' > DYToLLRelVal_noPU.list
+eos ls /eos/cms/store/caf/user/micheli/ShashlikUpgrade/DYToLLRelVal/PU140 | awk '{print "root://eoscms//eos/cms/store/caf/user/micheli/ShashlikUpgrade/DYToLLRelVal/PU140/"$1}' > DYToLLRelVal.list
