@@ -19,16 +19,28 @@ void createHistos::bookHistos(){
   bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2);
   bookHisto("nBCForSC",100,-0.5,99.5);
   bookHisto("nXtalsSeed",100,-0.5,99.5);
-  bookHisto("maxDistFromSeedinRinSC",300,0,3);
-  bookHisto("maxDistFromSeedinEtainSC",300,0,3);
-  bookHisto("maxDistFromSeedinPhiinSC",300,0,3);
+  bookHisto("maxDistFromSeedinRinSCEle",450,0,1.5);
+  bookHisto("maxDistFromSeedinEtainSCEle",450,0,1.5);
+  bookHisto("maxDistFromSeedinPhiinSCEle",450,0,1.5);
+  bookHisto("maxDistFromSeedinRinSCPhoUnconv",450,0,1.5);
+  bookHisto("maxDistFromSeedinEtainSCPhoUnconv",450,0,1.5);
+  bookHisto("maxDistFromSeedinPhiinSCPhoUnconv",450,0,1.5);
+  bookHisto("maxDistFromSeedinRinSCPhoConv",450,0,1.5);
+  bookHisto("maxDistFromSeedinEtainSCPhoConv",450,0,1.5);
+  bookHisto("maxDistFromSeedinPhiinSCPhoConv",450,0,1.5);
+
+
 
   bookHisto2D("sieieVsPhi",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiFirstEtaBin",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiSecondEtaBin",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiThirdEtaBin",100,-3.,3.,100,0.,0.1);
-
-
+  bookHisto2D("EBCseedVsDeltaPhiBCSeedEle",200,0.,1.,200,0.,100.);
+  bookHisto2D("EBCseedVsDeltaPhiBCSeedPhoUnconv",200,0.,1.,200,0.,100.);
+  bookHisto2D("EBCseedVsDeltaPhiBCSeedPhoConv",200,0.,1.,200,0.,100.);
+  bookHisto2D("EBCseedVsDeltaEtaBCSeedEle",200,0,1.,200,0.,100.);
+  bookHisto2D("EBCseedVsDeltaEtaBCSeedPhoUnconv",200,0.,1.,200,0.,100.);
+  bookHisto2D("EBCseedVsDeltaEtaBCSeedPhoConv",200,0.,1.,200,0.,100.);
 
 }
 
@@ -70,7 +82,7 @@ void createHistos::Loop(){
     nb = fChain->GetEntry(jentry);   nbytes += nb;
     // if (Cut(ientry) < 0) continue;           
 
-    if(jentry%1000==0)std::cout<<"jentry:"<<jentry<<"/"<<nentries<<std::endl;
+    if(jentry%500==0)std::cout<<"jentry:"<<jentry<<"/"<<nentries<<std::endl;
 
     float endcapBoundaryLow=1.5;
     float firstEtaBinUp=1.8;
@@ -151,7 +163,7 @@ void createHistos::Loop(){
 	  drMatch=dr;
 	}
       }
-      //filling histos for phoctrons
+      //filling histos for photons
       if(gphoindexMatch!=-1){
 	if(TMath::Abs(phoeta[i])<firstEtaBinUp && TMath::Abs(phoeta[i])>endcapBoundaryLow){
 	  histos_["phoErecoOverETrueFirstEtaBin"]->Fill(phoe[i]/(gphopt[gphoindexMatch]*cosh(gphoeta[gphoindexMatch])));
@@ -174,14 +186,99 @@ void createHistos::Loop(){
 	histos_["nBCForSC"]->Fill(pfSCnBC[i]);
       
 	
+
+	//matching with gen ele
+	bool matchesGenEle=false;
+	bool matchesGenPhoConv=false;
+	bool matchesGenPhoUnconv=false;
+	TLorentzVector pfscp4;
+	pfscp4.SetPtEtaPhiE(pfSCe[i]/cosh(pfSCeta[i]),pfSCeta[i],pfSCphi[i],pfSCe[i]);
+
+
+	
+	int geleindexMatch=-1;
+	float drMatch=999;
+	for(int j=0;j<gelen;j++){
+	  if(gelept[j]<5)continue;
+	  
+	  TLorentzVector gelep4;
+	  gelep4.SetPtEtaPhiM(gelept[j],geleeta[j],gelephi[j],0.);
+	  
+	  float dr=pfscp4.DeltaR(gelep4);
+	  
+	  if(dr<0.1 && dr<drMatch){
+	    geleindexMatch=j;
+	    drMatch=dr;
+	  }
+	}
+
+	if(geleindexMatch != -1){
+	  matchesGenEle=true;
+//	  std::cout<<"pfsc: pt,eta,phi "<<pfSCe[i]/cosh(pfSCeta[i])<<","<<pfSCeta[i]<<","<<pfSCphi[i]<<","<<pfSCe[i]<<std::endl;
+//	  std::cout<<"gele: pt,eta,phi "<<gelept[geleindexMatch]<<","<<geleeta[geleindexMatch]<<","<<gelephi[geleindexMatch]<<std::endl;
+	}
+
+	TLorentzVector matchedGenPhop4;
+	int gphoindexMatch=-1;
+	float drMatchPho=999;
+	for(int j=0;j<gphon;j++){
+	  if(gphopt[j]<5)continue;
+	  
+	  TLorentzVector gphop4;
+	  gphop4.SetPtEtaPhiM(gphopt[j],gphoeta[j],gphophi[j],0.);
+	  
+	  float dr=pfscp4.DeltaR(gphop4);
+	  
+	  if(dr<0.1 && dr<drMatchPho){
+	    gphoindexMatch=j;
+	    drMatchPho=dr;
+	    matchedGenPhop4=gphop4;
+	  }
+	}
+
+	if(gphoindexMatch != -1) {
+	  //FIX ME: for photons for the moment you don't have the info on conversion so you have to reloop on photons, try to add when producing ntuples
+	  int recoPhoindexMatch=-1;
+	  float drPhoMatch=999;
+
+	    for(int ii=0;ii<phon;ii++){
+	      if(phopt[ii]<0.1)continue;
+	      TLorentzVector phop4;
+	      phop4.SetPtEtaPhiM(phopt[ii],phoeta[ii],phophi[ii],0.);
+
+	      float dr=matchedGenPhop4.DeltaR(phop4);
+
+	      if(dr<0.1 && dr<drPhoMatch){
+		recoPhoindexMatch=ii;
+		drPhoMatch=dr;
+	      }
+	    }
+
+	    if(recoPhoindexMatch>-1){
+//	      std::cout<<"pfsc: pt,eta,phi "<<pfSCe[i]/cosh(pfSCeta[i])<<","<<pfSCeta[i]<<","<<pfSCphi[i]<<","<<pfSCe[i]<<std::endl;
+//	      std::cout<<"genPho: pt,eta,phi "<<gphopt[gphoindexMatch]<<","<<gphoeta[gphoindexMatch]<<","<<gphophi[gphoindexMatch]<<std::endl;
+//	      std::cout<<"recoPho: pt,eta,phi "<<phoe[recoPhoindexMatch]/cosh(phoeta[recoPhoindexMatch])<<","<<phoeta[recoPhoindexMatch]<<","<<phophi[recoPhoindexMatch]<<","<<phoe[recoPhoindexMatch]<<std::endl;
+	      if(phoE9[recoPhoindexMatch]/phoe[recoPhoindexMatch]>0.94) matchesGenPhoUnconv=true;
+	      else matchesGenPhoConv=true;
+	    }
+	}
+
+
+	if(!(matchesGenEle || matchesGenPhoUnconv || matchesGenPhoConv)) continue;
+
 	//max distance from seed
 	if(pfSCbcE[i][0]<0.01)continue;
 	//	std::cout<<pfSCbcE[i][0]<<std::endl;
 	float maxDistR=0;
 	float maxDistEta=0;
 	float maxDistPhi=0;
+
+
 	TLorentzVector seed;
 	seed.SetPtEtaPhiE(pfSCbcE[i][0]/cosh(pfSCbcEta[i][0]),pfSCbcEta[i][0],pfSCbcPhi[i][0],pfSCbcE[i][0]);
+
+
+
 	for (int j=0;j< pfSCnBC[i];j++){
 	  //	  std::cout<<pfSCnBC[i]<< " i,j:"<<i<<","<<j<<" "<<pfSCbcE[i][j]<<std::endl;
 	  if(pfSCbcE[i][j]<0.01)continue;
@@ -194,13 +291,37 @@ void createHistos::Loop(){
 	    if(distPhi>maxDistPhi)maxDistPhi=distPhi;
 	    float distEta=sqrt(distR*distR-distPhi*distPhi);
 	    if(distEta>maxDistEta)maxDistEta=distEta;
+	    
+	    //2d: ebcseed vs deltaphi(bc,seed)
+	    if(matchesGenEle){
+	      histos2D_["EBCseedVsDeltaPhiBCSeedEle"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["EBCseedVsDeltaEtaBCSeedEle"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	    }
+	    else if(matchesGenPhoUnconv){
+	      histos2D_["EBCseedVsDeltaPhiBCSeedPhoUnconv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["EBCseedVsDeltaEtaBCSeedPhoUnconv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	    }
+	    else if(matchesGenPhoConv){
+	      histos2D_["EBCseedVsDeltaPhiBCSeedPhoConv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["EBCseedVsDeltaEtaBCSeedPhoConv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	    }
 
 	    //	    std::cout<<maxDistR<<std::endl;
 	  }
 	}//pfSCnBC
-	if(maxDistR>0)histos_["maxDistFromSeedinRinSC"]->Fill(maxDistR);	
-	if(maxDistEta>0)histos_["maxDistFromSeedinEtainSC"]->Fill(maxDistEta);	
-	if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSC"]->Fill(maxDistPhi);	
+	if(matchesGenEle){
+	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCEle"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCEle"]->Fill(maxDistEta);	
+	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCEle"]->Fill(maxDistPhi);	
+	}else if (matchesGenPhoUnconv){
+	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCPhoUnconv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCPhoUnconv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCPhoUnconv"]->Fill(maxDistPhi);
+	}else if (matchesGenPhoConv){
+	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCPhoConv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCPhoConv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCPhoConv"]->Fill(maxDistPhi);
+	}
       }//pfSCn
     }
 	
