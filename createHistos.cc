@@ -19,8 +19,9 @@ void createHistos::bookHistos(){
   bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2);
   bookHisto("nBCForSC",100,-0.5,99.5);
   bookHisto("nXtalsSeed",100,-0.5,99.5);
-  bookHisto("maxDistFromSeedinEtainSC",100,0,3);
-  bookHisto("maxDistFromSeedinPhiinSC",100,0,3);
+  bookHisto("maxDistFromSeedinRinSC",300,0,3);
+  bookHisto("maxDistFromSeedinEtainSC",300,0,3);
+  bookHisto("maxDistFromSeedinPhiinSC",300,0,3);
 
   bookHisto2D("sieieVsPhi",100,-3.,3.,100,0.,0.1);
   bookHisto2D("sieieVsPhiFirstEtaBin",100,-3.,3.,100,0.,0.1);
@@ -176,7 +177,9 @@ void createHistos::Loop(){
 	//max distance from seed
 	if(pfSCbcE[i][0]<0.01)continue;
 	//	std::cout<<pfSCbcE[i][0]<<std::endl;
-	float maxDist=0;
+	float maxDistR=0;
+	float maxDistEta=0;
+	float maxDistPhi=0;
 	TLorentzVector seed;
 	seed.SetPtEtaPhiE(pfSCbcE[i][0]/cosh(pfSCbcEta[i][0]),pfSCbcEta[i][0],pfSCbcPhi[i][0],pfSCbcE[i][0]);
 	for (int j=0;j< pfSCnBC[i];j++){
@@ -185,12 +188,19 @@ void createHistos::Loop(){
 	  if(j>0){
 	    TLorentzVector bc;
 	    bc.SetPtEtaPhiE(pfSCbcE[i][j]/cosh(pfSCbcEta[i][j]),pfSCbcEta[i][j],pfSCbcPhi[i][j],pfSCbcE[i][j]);
-	    float dist=seed.DeltaR(bc);
-	    if(dist>maxDist)maxDist=dist;
-	    //	    std::cout<<maxDist<<std::endl;
+	    float distR=seed.DeltaR(bc);
+	    if(distR>maxDistR)maxDistR=distR;
+	    float distPhi=seed.DeltaPhi(bc);
+	    if(distPhi>maxDistPhi)maxDistPhi=distPhi;
+	    float distEta=sqrt(distR*distR-distPhi*distPhi);
+	    if(distEta>maxDistEta)maxDistEta=distEta;
+
+	    //	    std::cout<<maxDistR<<std::endl;
 	  }
 	}//pfSCnBC
-	//	if(maxDist>0)histos	
+	if(maxDistR>0)histos_["maxDistFromSeedinRinSC"]->Fill(maxDistR);	
+	if(maxDistEta>0)histos_["maxDistFromSeedinEtainSC"]->Fill(maxDistEta);	
+	if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSC"]->Fill(maxDistPhi);	
       }//pfSCn
     }
 	
