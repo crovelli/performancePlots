@@ -2,7 +2,6 @@ ROOTLIBS      = $(shell $(ROOTSYS)/bin/root-config --libs)
 ROOTGLIBS     = $(shell $(ROOTSYS)/bin/root-config --glibs)
 
 BINFILES =  $(wildcard *.cpp)
-
 PROGRAMS = $(patsubst %.cpp,%,$(BINFILES))
 
 
@@ -14,6 +13,7 @@ INCLUDES   =
 WORKDIR    = tmp/
 LIBDIR     = $(WORKDIR)
 OBJDIR=$(WORKDIR)/objects/
+BINDIR=$(WORKDIR)/bin/
 # -------------------------------------------------------------
 
 ROOFIT_INCLUDE := $(shell cd $(CMSSW_BASE); scram tool info roofitcore | grep INCLUDE= | sed 's|INCLUDE=||')
@@ -34,6 +34,9 @@ CCFILES=$(filter-out $(BINFILES),$(wildcard *.cc))
 OLIST=$(patsubst %.cc,$(OBJDIR)/%.o,$(CCFILES))
 
 # Implicit rule to compile all classes
+all : $(PROGRAMS)
+
+
 $(OBJDIR)/%.o : %.cc
 	@echo "Compiling $<"
 	@mkdir -p $(OBJDIR)
@@ -45,7 +48,8 @@ $(PROGRAMS) : $(OLIST)
 	@$(CC) $(CCFLAGS)  $(INCLUDES) $(OLIST) \
 	$(ROOTLIBS) $(EXTRALIBS) -o $(WORKDIR)/$@   $(patsubst %,%.cpp,$@)
 
-all : ${PROGRAMS}
+
+# ${PROGRAMS}
 
 clean:
 	rm -Rf $(WORKDIR)/*
