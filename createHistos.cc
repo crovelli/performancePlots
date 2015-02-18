@@ -6,28 +6,40 @@
 
 void createHistos::bookHistos(){
 
-  bookHisto("phoErecoOverETrueFirstEtaBin",200,0,2);
-  bookHisto("phoErecoOverETrueSecondEtaBin",200,0,2);
-  bookHisto("phoErecoOverETrueThirdEtaBin",200,0,2);
+  bookHisto("phoErecoOverETrueFirstEtaBin",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("phoErecoOverETrueSecondEtaBin",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("phoErecoOverETrueThirdEtaBin",200,0,2,"E_{reco}/E_{true}");
   
-  bookHisto("eleErecoOverETrueFirstEtaBin",200,0,2);
-  bookHisto("eleErecoOverETrueSecondEtaBin",200,0,2);
-  bookHisto("eleErecoOverETrueThirdEtaBin",200,0,2);
+  bookHisto("eleErecoOverETrueFirstEtaBin",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("eleErecoOverETrueSecondEtaBin",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("eleErecoOverETrueThirdEtaBin",200,0,2,"E_{reco}/E_{true}");
 
-  bookHisto("eleErecoOverETrueFirstEtaBinFbrem02",200,0,2);
-  bookHisto("eleErecoOverETrueSecondEtaBinFbrem02",200,0,2);
-  bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2);
-  bookHisto("nBCForSC",25,-0.5,24.5);
-  bookHisto("nXtalsSeed",100,-0.5,99.5);
-  bookHisto("maxDistFromSeedinRinSCEle",300,0,0.8);
-  bookHisto("maxDistFromSeedinEtainSCEle",300,0,0.8);
-  bookHisto("maxDistFromSeedinPhiinSCEle",300,0,0.8);
-  bookHisto("maxDistFromSeedinRinSCPhoUnconv",300,0,0.8);
-  bookHisto("maxDistFromSeedinEtainSCPhoUnconv",300,0,0.8);
-  bookHisto("maxDistFromSeedinPhiinSCPhoUnconv",300,0,0.8);
-  bookHisto("maxDistFromSeedinRinSCPhoConv",300,0,0.8);
-  bookHisto("maxDistFromSeedinEtainSCPhoConv",300,0,0.8);
-  bookHisto("maxDistFromSeedinPhiinSCPhoConv",300,0,0.8);
+  bookHisto("eleErecoOverETrueFirstEtaBinFbrem02",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("eleErecoOverETrueSecondEtaBinFbrem02",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("eleErecoOverETrueThirdEtaBinFbrem02",200,0,2,"E_{reco}/E_{true}");
+  bookHisto("pfSC_nBCForSC",25,-0.5,24.5,   "N_{BC} for SC");
+  bookHisto("pfSC_nXtalsSeed",100,-0.5,99.5,"N_{xtals}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinRinSCEle",300,0,0.8  ,"max#Delta R_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinEtainSCEle",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinPhiinSCEle",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinRinSCPhoUnconv",300,0,0.8,"max#Delta R_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinEtainSCPhoUnconv",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinPhiinSCPhoUnconv",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinRinSCPhoConv",300,0,0.8,"max#Delta R_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinEtainSCPhoConv",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("pfSC_maxDistFromSeedinPhiinSCPhoConv",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+  bookHisto("multi5x5SC_nBCForSC",25,-0.5,24.5   ,"N_{BC} for SC");
+  bookHisto("multi5x5SC_nXtalsSeed",100,-0.5,99.5,"N_{xtals}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinRinSCEle",300,0,0.8  ,"max#Delta R_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinEtainSCEle",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinPhiinSCEle",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinRinSCPhoUnconv",300,0,0.8  ,"max#Delta R_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinEtainSCPhoUnconv",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinPhiinSCPhoUnconv",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinRinSCPhoConv",300,0,0.8  ,"max#Delta R_{BC}^{seed}"); 
+  bookHisto("multi5x5SC_maxDistFromSeedinEtainSCPhoConv",300,0,0.8,"max#Delta #eta_{BC}^{seed}");
+  bookHisto("multi5x5SC_maxDistFromSeedinPhiinSCPhoConv",300,0,0.8,"max#Delta #phi_{BC}^{seed}");
+
 
 
 
@@ -35,12 +47,18 @@ void createHistos::bookHistos(){
   bookHisto2D("sieieVsPhiFirstEtaBin",50,-3.,3.,50,0.,0.1);
   bookHisto2D("sieieVsPhiSecondEtaBin",50,-3.,3.,50,0.,0.1);
   bookHisto2D("sieieVsPhiThirdEtaBin",50,-3.,3.,50,0.,0.1);
-  bookHisto2D("EBCseedVsDeltaPhiBCSeedEle",150,0.,0.7,150,0.,50.);
-  bookHisto2D("EBCseedVsDeltaPhiBCSeedPhoUnconv",150,0.,0.7,150,0.,50.);
-  bookHisto2D("EBCseedVsDeltaPhiBCSeedPhoConv",150,0.,0.7,150,0.,50.);
-  bookHisto2D("EBCseedVsDeltaEtaBCSeedEle",150,0.,0.3,150,0.,50.);
-  bookHisto2D("EBCseedVsDeltaEtaBCSeedPhoUnconv",150,0.,0.3,150,0.,50.);
-  bookHisto2D("EBCseedVsDeltaEtaBCSeedPhoConv",150,0.,0.3,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaPhiBCSeedEle",150,0.,0.7,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaPhiBCSeedPhoUnconv",150,0.,0.7,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaPhiBCSeedPhoConv",150,0.,0.7,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaEtaBCSeedEle",150,0.,0.3,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaEtaBCSeedPhoUnconv",150,0.,0.3,150,0.,50.);
+  bookHisto2D("pfSC_EBCseedVsDeltaEtaBCSeedPhoConv",150,0.,0.3,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaPhiBCSeedEle",150,0.,0.7,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaPhiBCSeedPhoUnconv",150,0.,0.7,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaPhiBCSeedPhoConv",150,0.,0.7,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaEtaBCSeedEle",150,0.,0.3,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaEtaBCSeedPhoUnconv",150,0.,0.3,150,0.,50.);
+  bookHisto2D("multi5x5SC_EBCseedVsDeltaEtaBCSeedPhoConv",150,0.,0.3,150,0.,50.);
 
 }
 
@@ -50,9 +68,24 @@ void createHistos::bookHisto(TString name, int nbins, float xLow, float xUp){
 
 }
 
+void createHistos::bookHisto(TString name, int nbins, float xLow, float xUp,TString xAxisName){
+  histos_[name]=new TH1F(name, name, nbins,xLow,xUp);
+  setAxisTitle(name,xAxisName);
+}
+
+
 void createHistos::bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp){
   histos2D_[name]=new TH2F(name, name, nbins,xLow,xUp,nbins, yLow,yUp);
 
+}
+
+void createHistos::setAxisTitle(TString name,TString xAxisName){
+  histos_[name]->GetXaxis()->SetTitle(xAxisName);
+}
+
+void createHistos::setAxisTitle(TString name,TString xAxisName, TString yAxisName){
+  histos2D_[name]->GetXaxis()->SetTitle(xAxisName);
+  histos2D_[name]->GetYaxis()->SetTitle(yAxisName);
 }
 
 
@@ -211,8 +244,8 @@ void createHistos::Loop(){
 
 	if(geleindexMatch != -1){
 	  if(fabs(geleeta[geleindexMatch])<endcapBoundaryLow)continue;
-	  histos_["nXtalsSeed"]->Fill(pfSCnXtals[i]);
-	  histos_["nBCForSC"]->Fill(pfSCnBC[i]);
+	  histos_["pfSC_nXtalsSeed"]->Fill(pfSCnXtals[i]);
+	  histos_["pfSC_nBCForSC"]->Fill(pfSCnBC[i]);
       
 
 	  matchesGenEle=true;
@@ -297,36 +330,190 @@ void createHistos::Loop(){
 	    //2d: ebcseed vs deltaphi(bc,seed)
 	    if(matchesGenEle){
 	      //	      std::cout<<fabs(distPhi)<<","<<pfSCbcE[i][j]<<std::endl;
-	      histos2D_["EBCseedVsDeltaPhiBCSeedEle"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
-	      histos2D_["EBCseedVsDeltaEtaBCSeedEle"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaPhiBCSeedEle"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaEtaBCSeedEle"]->Fill(fabs(distEta),pfSCbcE[i][j]);
 	    }
 	    else if(matchesGenPhoUnconv){
-	      histos2D_["EBCseedVsDeltaPhiBCSeedPhoUnconv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
-	      histos2D_["EBCseedVsDeltaEtaBCSeedPhoUnconv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaPhiBCSeedPhoUnconv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaEtaBCSeedPhoUnconv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
 	    }
 	    else if(matchesGenPhoConv){
-	      histos2D_["EBCseedVsDeltaPhiBCSeedPhoConv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
-	      histos2D_["EBCseedVsDeltaEtaBCSeedPhoConv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaPhiBCSeedPhoConv"]->Fill(fabs(distPhi),pfSCbcE[i][j]);
+	      histos2D_["pfSC_EBCseedVsDeltaEtaBCSeedPhoConv"]->Fill(fabs(distEta),pfSCbcE[i][j]);
 	    }
 
 	    //	    std::cout<<maxDistR<<std::endl;
 	  }
 	}//pfSCnBC
 	if(matchesGenEle){
-	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCEle"]->Fill(maxDistR);	
-	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCEle"]->Fill(maxDistEta);	
-	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCEle"]->Fill(maxDistPhi);	
+	  if(maxDistR>0)histos_["pfSC_maxDistFromSeedinRinSCEle"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["pfSC_maxDistFromSeedinEtainSCEle"]->Fill(maxDistEta);	
+	  if(maxDistPhi>0)histos_["pfSC_maxDistFromSeedinPhiinSCEle"]->Fill(maxDistPhi);	
 	}else if (matchesGenPhoUnconv){
-	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCPhoUnconv"]->Fill(maxDistR);	
-	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCPhoUnconv"]->Fill(maxDistEta);
-	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCPhoUnconv"]->Fill(maxDistPhi);
+	  if(maxDistR>0)histos_["pfSC_maxDistFromSeedinRinSCPhoUnconv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["pfSC_maxDistFromSeedinEtainSCPhoUnconv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["pfSC_maxDistFromSeedinPhiinSCPhoUnconv"]->Fill(maxDistPhi);
 	}else if (matchesGenPhoConv){
-	  if(maxDistR>0)histos_["maxDistFromSeedinRinSCPhoConv"]->Fill(maxDistR);	
-	  if(maxDistEta>0)histos_["maxDistFromSeedinEtainSCPhoConv"]->Fill(maxDistEta);
-	  if(maxDistPhi>0)histos_["maxDistFromSeedinPhiinSCPhoConv"]->Fill(maxDistPhi);
+	  if(maxDistR>0)histos_["pfSC_maxDistFromSeedinRinSCPhoConv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["pfSC_maxDistFromSeedinEtainSCPhoConv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["pfSC_maxDistFromSeedinPhiinSCPhoConv"]->Fill(maxDistPhi);
 	}
       }//pfSCn
     }
+
+
+
+
+  //loop on multi5x5SC
+    if(multi5x5SCn>0){
+      for (int i=0;i<multi5x5SCn;i++){
+	
+
+	//matching with gen ele
+	bool matchesGenEle=false;
+	bool matchesGenPhoConv=false;
+	bool matchesGenPhoUnconv=false;
+	TLorentzVector pfscp4;
+	pfscp4.SetPtEtaPhiE(multi5x5SCe[i]/cosh(multi5x5SCeta[i]),multi5x5SCeta[i],multi5x5SCphi[i],multi5x5SCe[i]);
+
+
+	
+	int geleindexMatch=-1;
+	float drMatch=999;
+	for(int j=0;j<gelen;j++){
+	  if(gelept[j]<5)continue;
+	  
+	  TLorentzVector gelep4;
+	  gelep4.SetPtEtaPhiM(gelept[j],geleeta[j],gelephi[j],0.);
+	  
+	  float dr=pfscp4.DeltaR(gelep4);
+	  
+	  if(dr<0.5 && dr<drMatch){
+	    geleindexMatch=j;
+	    drMatch=dr;
+	  }
+	}
+
+	if(geleindexMatch != -1){
+	  if(fabs(geleeta[geleindexMatch])<endcapBoundaryLow)continue;
+	  histos_["multi5x5SC_nXtalsSeed"]->Fill(multi5x5SCnXtals[i]);
+	  histos_["multi5x5SC_nBCForSC"]->Fill(multi5x5SCnBC[i]);
+      
+
+	  matchesGenEle=true;
+//	  std::cout<<"pfsc: pt,eta,phi "<<multi5x5SCe[i]/cosh(multi5x5SCeta[i])<<","<<multi5x5SCeta[i]<<","<<multi5x5SCphi[i]<<","<<multi5x5SCe[i]<<std::endl;
+//	  std::cout<<"gele: pt,eta,phi "<<gelept[geleindexMatch]<<","<<geleeta[geleindexMatch]<<","<<gelephi[geleindexMatch]<<std::endl;
+	}
+
+	TLorentzVector matchedGenPhop4;
+	int gphoindexMatch=-1;
+	float drMatchPho=999;
+	for(int j=0;j<gphon;j++){
+	  if(gphopt[j]<5)continue;
+	  
+	  TLorentzVector gphop4;
+	  gphop4.SetPtEtaPhiM(gphopt[j],gphoeta[j],gphophi[j],0.);
+	  
+	  float dr=pfscp4.DeltaR(gphop4);
+	  
+	  if(dr<0.1 && dr<drMatchPho){
+	    gphoindexMatch=j;
+	    drMatchPho=dr;
+	    matchedGenPhop4=gphop4;
+	  }
+	}
+
+	if(gphoindexMatch != -1) {
+	  //FIX ME: for photons for the moment you don't have the info on conversion so you have to reloop on photons, try to add when producing ntuples
+	  int recoPhoindexMatch=-1;
+	  float drPhoMatch=999;
+
+	    for(int ii=0;ii<phon;ii++){
+	      if(phopt[ii]<0.1)continue;
+	      TLorentzVector phop4;
+	      phop4.SetPtEtaPhiM(phopt[ii],phoeta[ii],phophi[ii],0.);
+
+	      float dr=matchedGenPhop4.DeltaR(phop4);
+
+	      if(dr<0.1 && dr<drPhoMatch){
+		recoPhoindexMatch=ii;
+		drPhoMatch=dr;
+	      }
+	    }
+
+	    if(recoPhoindexMatch>-1){
+//	      std::cout<<"pfsc: pt,eta,phi "<<multi5x5SCe[i]/cosh(multi5x5SCeta[i])<<","<<multi5x5SCeta[i]<<","<<multi5x5SCphi[i]<<","<<multi5x5SCe[i]<<std::endl;
+//	      std::cout<<"genPho: pt,eta,phi "<<gphopt[gphoindexMatch]<<","<<gphoeta[gphoindexMatch]<<","<<gphophi[gphoindexMatch]<<std::endl;
+//	      std::cout<<"recoPho: pt,eta,phi "<<phoe[recoPhoindexMatch]/cosh(phoeta[recoPhoindexMatch])<<","<<phoeta[recoPhoindexMatch]<<","<<phophi[recoPhoindexMatch]<<","<<phoe[recoPhoindexMatch]<<std::endl;
+	      if(phoE9[recoPhoindexMatch]/phoe[recoPhoindexMatch]>0.94) matchesGenPhoUnconv=true;
+	      else matchesGenPhoConv=true;
+	    }
+	}
+
+
+	if(!(matchesGenEle || matchesGenPhoUnconv || matchesGenPhoConv)) continue;
+
+	//max distance from seed
+	if(multi5x5SCbcE[i][0]<0.01)continue;
+	//	std::cout<<multi5x5SCbcE[i][0]<<std::endl;
+	float maxDistR=0;
+	float maxDistEta=0;
+	float maxDistPhi=0;
+
+
+	TLorentzVector seed;
+	seed.SetPtEtaPhiE(multi5x5SCbcE[i][0]/cosh(multi5x5SCbcEta[i][0]),multi5x5SCbcEta[i][0],multi5x5SCbcPhi[i][0],multi5x5SCbcE[i][0]);
+
+
+
+	for (int j=0;j< multi5x5SCnBC[i];j++){
+	  //	  std::cout<<multi5x5SCnBC[i]<< " i,j:"<<i<<","<<j<<" "<<multi5x5SCbcE[i][j]<<std::endl;
+	  if(multi5x5SCbcE[i][j]<0.01)continue;
+	  if(j>0){
+	    TLorentzVector bc;
+	    bc.SetPtEtaPhiE(multi5x5SCbcE[i][j]/cosh(multi5x5SCbcEta[i][j]),multi5x5SCbcEta[i][j],multi5x5SCbcPhi[i][j],multi5x5SCbcE[i][j]);
+	    float distR=seed.DeltaR(bc);
+	    if(distR>maxDistR)maxDistR=distR;
+	    float distPhi=seed.DeltaPhi(bc);
+	    if(distPhi>maxDistPhi)maxDistPhi=distPhi;
+	    float distEta=sqrt(distR*distR-distPhi*distPhi);
+	    if(distEta>maxDistEta)maxDistEta=distEta;
+	    
+	    //2d: ebcseed vs deltaphi(bc,seed)
+	    if(matchesGenEle){
+	      //	      std::cout<<fabs(distPhi)<<","<<multi5x5SCbcE[i][j]<<std::endl;
+	      histos2D_["multi5x5SC_EBCseedVsDeltaPhiBCSeedEle"]->Fill(fabs(distPhi),multi5x5SCbcE[i][j]);
+	      histos2D_["multi5x5SC_EBCseedVsDeltaEtaBCSeedEle"]->Fill(fabs(distEta),multi5x5SCbcE[i][j]);
+	    }
+	    else if(matchesGenPhoUnconv){
+	      histos2D_["multi5x5SC_EBCseedVsDeltaPhiBCSeedPhoUnconv"]->Fill(fabs(distPhi),multi5x5SCbcE[i][j]);
+	      histos2D_["multi5x5SC_EBCseedVsDeltaEtaBCSeedPhoUnconv"]->Fill(fabs(distEta),multi5x5SCbcE[i][j]);
+	    }
+	    else if(matchesGenPhoConv){
+	      histos2D_["multi5x5SC_EBCseedVsDeltaPhiBCSeedPhoConv"]->Fill(fabs(distPhi),multi5x5SCbcE[i][j]);
+	      histos2D_["multi5x5SC_EBCseedVsDeltaEtaBCSeedPhoConv"]->Fill(fabs(distEta),multi5x5SCbcE[i][j]);
+	    }
+
+	    //	    std::cout<<maxDistR<<std::endl;
+	  }
+	}//multi5x5SCnBC
+	if(matchesGenEle){
+	  if(maxDistR>0)histos_["multi5x5SC_maxDistFromSeedinRinSCEle"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["multi5x5SC_maxDistFromSeedinEtainSCEle"]->Fill(maxDistEta);	
+	  if(maxDistPhi>0)histos_["multi5x5SC_maxDistFromSeedinPhiinSCEle"]->Fill(maxDistPhi);	
+	}else if (matchesGenPhoUnconv){
+	  if(maxDistR>0)histos_["multi5x5SC_maxDistFromSeedinRinSCPhoUnconv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["multi5x5SC_maxDistFromSeedinEtainSCPhoUnconv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["multi5x5SC_maxDistFromSeedinPhiinSCPhoUnconv"]->Fill(maxDistPhi);
+	}else if (matchesGenPhoConv){
+	  if(maxDistR>0)histos_["multi5x5SC_maxDistFromSeedinRinSCPhoConv"]->Fill(maxDistR);	
+	  if(maxDistEta>0)histos_["multi5x5SC_maxDistFromSeedinEtainSCPhoConv"]->Fill(maxDistEta);
+	  if(maxDistPhi>0)histos_["multi5x5SC_maxDistFromSeedinPhiinSCPhoConv"]->Fill(maxDistPhi);
+	}
+      }//multi5x5SCn
+    }
+
+
 	
 
   }//jentry
@@ -466,6 +653,9 @@ void createHistos::Init(TTree *tree)
    fChain->SetBranchAddress("multi5x5SCe", &multi5x5SCe, &b_multi5x5SCe);
    fChain->SetBranchAddress("multi5x5SCnBC", &multi5x5SCnBC, &b_multi5x5SCnBC);
    fChain->SetBranchAddress("multi5x5SCnXtals", &multi5x5SCnXtals, &b_multi5x5SCnXtals);
+   fChain->SetBranchAddress("multi5x5SCbcEta", multi5x5SCbcEta, &b_multi5x5SCbcEta);
+   fChain->SetBranchAddress("multi5x5SCbcPhi", multi5x5SCbcPhi, &b_multi5x5SCbcPhi);
+   fChain->SetBranchAddress("multi5x5SCbcE", multi5x5SCbcE, &b_multi5x5SCbcE);
    fChain->SetBranchAddress("hybridSCn", &hybridSCn, &b_hybridSCn);
    fChain->SetBranchAddress("hybridSCeta", hybridSCeta, &b_hybridSCeta);
    fChain->SetBranchAddress("hybridSCphi", hybridSCphi, &b_hybridSCphi);

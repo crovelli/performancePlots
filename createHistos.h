@@ -123,6 +123,9 @@ public :
    Float_t         multi5x5SCe[MAXSCTOSAVE];   //[multi5x5SCn]
    Float_t         multi5x5SCnBC[MAXSCTOSAVE];   //[multi5x5SCn]
    Float_t         multi5x5SCnXtals[MAXSCTOSAVE];   //[multi5x5SCn]
+   Float_t         multi5x5SCbcEta[MAXBCTOSAVE][MAXSCTOSAVE];
+   Float_t         multi5x5SCbcPhi[MAXBCTOSAVE][MAXSCTOSAVE];
+   Float_t         multi5x5SCbcE[MAXBCTOSAVE][MAXSCTOSAVE];
    Int_t           hybridSCn;
    Float_t         hybridSCeta[MAXSCTOSAVE];   //[hybridSCn]
    Float_t         hybridSCphi[MAXSCTOSAVE];   //[hybridSCn]
@@ -307,6 +310,9 @@ public :
    TBranch        *b_multi5x5SCe;   //!
    TBranch        *b_multi5x5SCnBC;   //!
    TBranch        *b_multi5x5SCnXtals;   //!
+   TBranch        *b_multi5x5SCbcEta;   //!
+   TBranch        *b_multi5x5SCbcPhi;   //!
+   TBranch        *b_multi5x5SCbcE;   //!
    TBranch        *b_hybridSCn;   //!
    TBranch        *b_hybridSCeta;   //!
    TBranch        *b_hybridSCphi;   //!
@@ -425,7 +431,10 @@ public :
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    void bookHisto(TString name, int nbins, float xLow, float xUp);
+   void bookHisto(TString name, int nbins, float xLow, float xUp,TString xAxisName); 
    void bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp);
+   void setAxisTitle(TString name,TString xAxisName);
+   void setAxisTitle(TString name,TString xAxisName, TString yAxisName);
    void bookHistos();
    void writeHistos();
    //   void setInputFile(TString name);
