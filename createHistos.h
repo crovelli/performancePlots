@@ -433,6 +433,7 @@ public :
    void bookHisto(TString name, int nbins, float xLow, float xUp);
    void bookHisto(TString name, int nbins, float xLow, float xUp,TString xAxisName); 
    void bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp);
+   void bookHisto2D(TString name, int nbins, float xLow, float xUp,int nbinsY, float yLow, float yUp,TString xAxisTitle, TString yAxisTitle);
    void setAxisTitle(TString name,TString xAxisName);
    void setAxisTitle(TString name,TString xAxisName, TString yAxisName);
    void bookHistos();
